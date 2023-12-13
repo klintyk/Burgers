@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Burger Database</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #ffcc99;
+      }
+      header {
+        background-color: #cc6600;
+      }
+      .burger-card {
+        margin-bottom: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="text-white text-center py-3">
+      <h1>DISCOVER THE WORLD OF BURGER TYPES</h1>
+    </header>
+
+    <div class="container mt-4">
+      <div class="card m-4">
+        <div class="card-header">
+          <h3>All The Types Of Burgers In The World</h3>
+          <p class="lead">
+            Explore a variety of delicious burgers from our extensive
+            collection.
+          </p>
+        </div>
+        <section class="my-4" id="burger-container">
+          <!-- Burgers will be loaded here -->
+        </section>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        fetchBurgers();
+      });
+
+      function fetchBurgers() {
+        // Replace with your API endpoint
+        fetch("https://api.yourdomain.com/burgers")
+          .then((response) => response.json())
+          .then((data) => {
+            createBurgerCards(data);
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+
+      function createBurgerCards(burgers) {
+        const container = document.getElementById("burger-container");
+        let row;
+
+        burgers.forEach((burger, index) => {
+          if (index % 3 === 0) {
+            row = document.createElement("div");
+            row.className = "row";
+            container.appendChild(row);
+          }
+          const col = document.createElement("div");
+          col.className = "col-md-4 burger-card";
+          col.innerHTML = `
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">${burger.name}</h5>
+                        </div>
+                        <div class="card-body">
+                            <center>
+                                <img src="${burger.imageUrl}" class="card-img-top m-3" alt="${burger.name}" style="height: 200px; width: 200px">
+                            </center>
+                        </div>
+                    </div>
+                `;
+          row.appendChild(col);
+        });
+      }
+    </script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
